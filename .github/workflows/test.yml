@@ -3,7 +3,11 @@ name: Run Python Script and Update res.txt
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:
+  workflow_run:
+    workflows: [ YourPreviousWorkflowName ]
+    type: completed
+  schedule:
+    - cron: '0 0 * * *'  # 每天凌晨0点运行
 
 jobs:
   run-script:
@@ -11,15 +15,21 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        fetch-depth: 0
-    - name: Set up Python
+        fetch-depth: 0  # 获取整个仓库历史记录
+    - name: Setup Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.x  # 根据你的 `test.py` 脚本需求选择合适的 Python 版本
+        python-version: 3.x  # 根据你的Python版本选择
     - name: Install Dependencies
       run: |
         pip install requests
-    - name: Run Python Script
+    - name: Run Script
       run: |
-        python ./test.py
-
+        python test.py
+    - name: Save Output to File
+      run: |
+        # 读取 test.py 的输出结果
+        # 假设 test.py 的输出结果是存储在某个变量中，例如 output
+        # 这里需要修改为实际的输出获取方式，例如通过文件读取或命令行输出
+        output=$(python test.py)
+        echo $output > res.txt
