@@ -1,7 +1,7 @@
 import requests
 
 # 目标URL
-url = 'https://www.zoomeye.org/searchResult?q=udpxy'
+url = 'https://www.zoomeye.org/'
 
 # 发送GET请求
 response = requests.get(url)
