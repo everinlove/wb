@@ -1,0 +1,41 @@
+name: Run Python Script and Update res.txt
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x  # 根据你的 `test.py` 脚本需求选择合适的 Python 版本
+    - name: Install Dependencies
+      run: |
+        pip install requests
+    - name: Run Python Script
+      run: |
+        python ./test.py
+    - name: Check and Update res.txt
+      run: |
+        if [ -f "res.txt" ]; then
+          echo "res.txt already exists. Checking its content."
+          cat res.txt
+        else
+          echo "res.txt does not exist. Creating it."
+          touch res.txt
+        fi
+        # 读取并检查 res.txt 的内容是否符合预期
+        # 这里可以添加逻辑判断，例如检查文件大小、内容等
+        # 示例：比较文件内容是否与预期相同
+        if cmp -s res.txt expected_res.txt; then
+          echo "文件内容一致，更新成功。"
+        else
+          echo "文件内容不一致，更新失败。"
+        fi
