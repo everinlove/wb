@@ -22,20 +22,4 @@ jobs:
     - name: Run Python Script
       run: |
         python ./test.py
-    - name: Check and Update res.txt
-      run: |
-        if [ -f "res.txt" ]; then
-          echo "res.txt already exists. Checking its content."
-          cat res.txt
-        else
-          echo "res.txt does not exist. Creating it."
-          touch res.txt
-        fi
-        # 读取并检查 res.txt 的内容是否符合预期
-        # 这里可以添加逻辑判断，例如检查文件大小、内容等
-        # 示例：比较文件内容是否与预期相同
-        if cmp -s res.txt expected_res.txt; then
-          echo "文件内容一致，更新成功。"
-        else
-          echo "文件内容不一致，更新失败。"
-        fi
+
