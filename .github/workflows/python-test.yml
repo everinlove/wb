@@ -1,0 +1,27 @@
+name: Python Test
+
+on:
+  # 如果你想在每次push时运行测试，可以取消注释下面这行
+  # push:
+  #   branches: [ main ] # 指定在哪个分支上运行，这里以main分支为例
+
+jobs:
+  test:
+    runs-on: ubuntu-latest # 指定运行环境
+
+    steps:
+    - uses: actions/checkout@v2 # 检出代码
+
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x' # 使用Python 3.x版本，你可以根据需要更改版本号
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt # 如果你的依赖项在requirements.txt文件中
+
+    - name: Run tests
+      run: |
+        python test.py # 运行你的测试脚本
